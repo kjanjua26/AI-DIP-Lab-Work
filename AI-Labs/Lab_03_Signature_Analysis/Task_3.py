@@ -1,16 +1,30 @@
-import cv2 
-from PIL import Image, ImageDraw
 import numpy as np 
+import cv2 
+import Task_1, Task_2
 """
-We implement centroid locating algorithm on the cropped image
+We implement dividing the image at centroid algorithm for the OTSU binarized image.
 """
-img = cv2.imread("cropped_image.png")
-gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-ret,thresh = cv2.threshold(gray_image,127,255,0)
-M = cv2.moments(thresh)
-cX = int(M["m10"] / M["m00"])
-cY = int(M["m01"] / M["m00"])
-cv2.circle(img, (cX, cY), 5, (0, 0, 255), -1)
-cv2.imshow("Image", img)
-cv2.waitKey(0)
-cv2.imwrite("centroids_image.png", img)
+
+def divide_image(img_file, top, bottom, right, left, cx, cy):
+	img = cv2.imread(img_file, 0)
+	print("Forming Cuts!")
+	cut_img = cv2.rectangle(img, (top, left), (cy, cx), (0,255,0), 3)
+	cut_img = cv2.rectangle(cut_img, (top, cx), (cy, right), (0,255,0), 3)
+	cut_img = cv2.rectangle(cut_img, (cy, left), (bottom, cx), (0,255,0), 3)
+	cut_img = cv2.rectangle(cut_img, (cy, cx), (bottom, right), (0,255,0), 3)
+	
+	top_left = img[left:cx, top:cy]
+	bottom_left = img[cx:right, top:cy]
+	top_right = img[left:cx, cy:bottom]
+	bottom_right = img[cx:right, cy:bottom]
+
+	cv2.imwrite("x_y_cut_image.png", cut_img)
+	cv2.imwrite("top_left_image.png", top_left)
+	cv2.imwrite("bottom_left_image.png", bottom_left)
+	cv2.imwrite("top_right_image.png", top_right)
+	cv2.imwrite("bottom_right_image.png", bottom_right)
+	return top_left, bottom_left, top_right, bottom_right
+
+top, bottom, right, left = Task_1.bounding_box("bin_sig.png")
+cx, cy = Task_2.centroid_computation("detected_box.png")
+divide_image("centeroid_image.png", top, bottom, right, left, cx, cy)
