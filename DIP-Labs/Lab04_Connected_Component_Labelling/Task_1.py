@@ -15,7 +15,7 @@ def threshold_binarization(img, threshold=150):
 
 def connected_component_labelling(img):
 	height, width = img.shape
-	label_counter = 1
+	blackScore = 1
 	img = np.array(img); mask = np.array(img)
 	min_values = []; max_values = []
 	v_set = 0
@@ -30,7 +30,7 @@ def connected_component_labelling(img):
 	                        if max(x_updated, y_updated) not in min_values:
 	                            min_values.append(max(x_updated, y_updated))
 	                            max_values.append(min(x_updated, y_updated))
-	                        elif max(x_updated, y_updated) in min_values:
+	                        else:
 	                            index_ = min_values.index(max(x_updated, y_updated))
 	                            if max_values[index_] > min(x_updated, y_updated):
 	                                intensity_ = max_values[index_]
@@ -49,8 +49,8 @@ def connected_component_labelling(img):
 	            elif x_updated < background and y_updated > background:
 	                mask[i][j] = y_updated
 	            else:
-	                mask[i][j] = label_counter
-	                label_counter += 1
+	                mask[i][j] = blackScore
+	                blackScore += 1
 	v_set = 1
 	for idx, val in enumerate(min_values):
 	    if max_values[idx] in min_values and v_set < 100:
