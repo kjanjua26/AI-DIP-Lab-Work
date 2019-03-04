@@ -5,9 +5,6 @@ import cv2
 import numpy as np 
 import matplotlib.pyplot as plt 
 
-def threshold_image(img, threshold):
-	return np.where(img>threshold, 1, 0)
-
 def bit_plane_slicing(img_file, plane_level):
 	img = cv2.imread(img_file, 0)
 	plane_level = 1
