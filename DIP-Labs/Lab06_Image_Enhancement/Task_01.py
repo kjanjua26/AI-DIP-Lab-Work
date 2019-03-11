@@ -33,11 +33,8 @@ def histogram_equalization(img_file):
 	img_yuv = cv2.cvtColor(img, cv2.COLOR_BGR2YUV)
 	img_yuv[:,:,0] = cv2.equalizeHist(img_yuv[:,:,0])
 	img_output = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2BGR)
-	#plt.imshow(img_output)
-	#plt.show()
-	#cv2.imshow('Color input image', img)
-	#cv2.imshow('Histogram equalized', img_output)
-	#cv2.waitKey(0)
+	plt.imshow(img_output)
+	plt.show()
 	plot_histogram(img_output)
 
 histogram_equalization("sample_img.jpg")
