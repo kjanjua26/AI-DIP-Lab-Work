@@ -93,8 +93,8 @@ def train():
     tree.fit(shuff_x_train, shuff_y_train)
     neigh = KNeighborsClassifier(n_neighbors=3)
     neigh.fit(shuff_x_train, shuff_y_train)
-    print('Accuracy using Decision Tree: ', tree.score(shuff_x_train, shuff_y_train))
-    print('Accuracy using kNN (k = 3): ', neigh.score(shuff_x_train, shuff_y_train))
+    print('Accuracy using Decision Tree: ', tree.score(shuff_x_test, shuff_y_test))
+    print('Accuracy using kNN (k = 3): ', neigh.score(shuff_x_test, shuff_y_test))
 
     X_embedded = TSNE(n_components=2).fit_transform(shuff_x_test)
     x_list = [x for [x, y] in X_embedded]
